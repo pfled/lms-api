@@ -110,14 +110,14 @@
 /home/connor/OneDrive/class files/420/take-two/LMS-API/SimpleLMS.Tests/obj/Debug/net7.0/SimpleLMS.Tests.genruntimeconfig.cache
 /home/connor/OneDrive/class files/420/take-two/LMS-API/SimpleLMS.Tests/obj/Debug/net7.0/ref/SimpleLMS.Tests.dll
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/CoverletSourceRootsMapping
+/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.API.deps.json
+/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.API.runtimeconfig.json
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/appsettings.Development.json
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/appsettings.json
+/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.API
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/xunit.runner.reporters.netcoreapp10.dll
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/xunit.runner.utility.netcoreapp10.dll
-/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.API.deps.json
-/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.API.runtimeconfig.json
-/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.API
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.Tests.deps.json
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.Tests.runtimeconfig.json
 /home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.Tests/bin/Debug/net7.0/SimpleLMS.Tests.dll

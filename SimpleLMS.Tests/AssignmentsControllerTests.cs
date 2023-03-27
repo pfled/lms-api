@@ -2,8 +2,6 @@ using Xunit;
 using SimpleLMS.API.Controllers;
 using SimpleLMS.API.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SimpleLMS.Tests
 {
@@ -21,7 +19,7 @@ namespace SimpleLMS.Tests
             Course course = new Course { ID = 1, Name = "Test Course" };
             _coursesController.CreateCourse(course);
 
-            Module module = new Module { ID = 1, Name = "Test Module", Course = course };
+            Module module = new Module { ID = 1, Name = "Test Module", CourseId = 1 };
             _modulesController.CreateModule(course.ID, module);
         }
 
@@ -36,7 +34,7 @@ namespace SimpleLMS.Tests
         [Fact]
         public void CreateAssignment_ShouldAddNewAssignment()
         {
-            Assignment assignment = new Assignment { ID = 1, Name = "Test Assignment" };
+            Assignment assignment = new Assignment { ID = 1, Name = "Test Assignment", DueDate = new DateTime(), ModuleId = 1 };
 
             var result = _assignmentsController.CreateAssignment(1, 1, assignment);
 
@@ -46,7 +44,7 @@ namespace SimpleLMS.Tests
         [Fact]
         public void UpdateAssignment_ShouldModifyAssignment()
         {
-            Assignment assignment = new Assignment { ID = 1, Name = "Test Assignment" };
+            Assignment assignment = new Assignment { ID = 1, Name = "Test Assignment", DueDate = new DateTime(), ModuleId = 1 };
             _assignmentsController.CreateAssignment(1, 1, assignment);
 
             Assignment updatedAssignment = new Assignment { Name = "Updated Assignment" };
@@ -59,7 +57,7 @@ namespace SimpleLMS.Tests
         [Fact]
         public void DeleteAssignment_ShouldRemoveAssignment()
         {
-            Assignment assignment = new Assignment { ID = 1, Name = "Test Assignment" };
+            Assignment assignment = new Assignment { ID = 1, Name = "Test Assignment", DueDate = new DateTime(), ModuleId = 1 };
             _assignmentsController.CreateAssignment(1, 1, assignment);
 
             var result = _assignmentsController.DeleteAssignment(1, 1, 1);

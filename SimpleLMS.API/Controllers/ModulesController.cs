@@ -14,13 +14,13 @@ namespace SimpleLMS.API.Controllers {
         [HttpGet]
         public ActionResult<IEnumerable<Module>> GetModules(int courseId)
         {
-            return _modules.FindAll(m => m.Course.ID == courseId);
+            return _modules.FindAll(m => m.CourseId == courseId);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Module> GetModule(int courseId, int id)
         {
-            var module = _modules.Find(m => m.Course.ID == courseId && m.ID == id);
+            var module = _modules.Find(m => m.CourseId == courseId && m.ID == id);
 
             if (module == null)
             {
@@ -40,7 +40,7 @@ namespace SimpleLMS.API.Controllers {
                 return NotFound();
             }
 
-            module.Course = course;
+            module.CourseId = courseId;
             _modules.Add(module);
 
             return CreatedAtAction(nameof(GetModule), new { courseId, id = module.ID }, module);
@@ -49,7 +49,7 @@ namespace SimpleLMS.API.Controllers {
         [HttpPut("{id}")]
         public IActionResult UpdateModule(int courseId, int id, Module updatedModule)
         {
-            var module = _modules.Find(m => m.Course.ID == courseId && m.ID == id);
+            var module = _modules.Find(m => m.CourseId == courseId && m.ID == id);
 
             if (module == null)
             {
@@ -65,7 +65,7 @@ namespace SimpleLMS.API.Controllers {
         [HttpDelete("{id}")]
         public IActionResult DeleteModule(int courseId, int id)
         {
-            var module = _modules.Find(m => m.Course.ID == courseId && m.ID == id);
+            var module = _modules.Find(m => m.CourseId == courseId && m.ID == id);
 
             if (module == null)
             {

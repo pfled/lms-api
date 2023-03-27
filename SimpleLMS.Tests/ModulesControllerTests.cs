@@ -2,8 +2,6 @@ using Xunit;
 using SimpleLMS.API.Controllers;
 using SimpleLMS.API.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SimpleLMS.Tests
 {
@@ -12,12 +10,18 @@ namespace SimpleLMS.Tests
         private CoursesController _coursesController;
         private ModulesController _modulesController;
 
+        private static List<Course> _coursesData = new List<Course>();
+        private static List<Module> _modulesData = new List<Module>();
+
         public ModulesControllerControllerTests() {
             _coursesController = new CoursesController();
             _modulesController = new ModulesController();
 
-            Course course = new Course { ID = 1, Name = "Test Course" };
-            _coursesController.CreateCourse(course);
+            if (!_coursesData.Any())
+            {
+                Course course = new Course { ID = 1, Name = "Test Course" };
+                _coursesController.CreateCourse(course);
+            }
         }
 
         [Fact]
@@ -31,7 +35,7 @@ namespace SimpleLMS.Tests
         [Fact]
         public void CreateModule_ShouldAddNewModule()
         {
-            Module module = new Module { ID = 1, Name = "Test Module" };
+            Module module = new Module { ID = 1, Name = "Test Module", CourseId = 1 };
 
             var result = _modulesController.CreateModule(1, module);
 
@@ -41,7 +45,7 @@ namespace SimpleLMS.Tests
         [Fact]
         public void UpdateModule_ShouldModifyModule()
         {
-            Module module = new Module { ID = 1, Name = "Test Module" };
+            Module module = new Module { ID = 1, Name = "Test Module", CourseId = 1 };
             _modulesController.CreateModule(1, module);
             Module updatedModule = new Module { Name = "Updated Module" };
 
@@ -53,7 +57,7 @@ namespace SimpleLMS.Tests
         [Fact]
         public void DeleteModule_ShouldRemoveModule()
         {
-            Module module = new Module { ID = 1, Name = "Test Module" };
+            Module module = new Module { ID = 1, Name = "Test Module", CourseId = 1 };
             _modulesController.CreateModule(1, module);
 
             var result = _modulesController.DeleteModule(1, 1);

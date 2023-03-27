@@ -14,13 +14,13 @@ namespace SimpleLMS.API.Controllers {
         [HttpGet]
         public ActionResult<IEnumerable<Assignment>> GetAssignments(int courseId, int moduleId)
         {
-            return _assignments.FindAll(a => a.Module.ID == moduleId);
+            return _assignments.FindAll(a => a.ModuleId == moduleId);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Assignment> GetAssignment(int courseId, int moduleId, int id)
         {
-            var assignment = _assignments.Find(a => a.Module.ID == moduleId && a.ID == id);
+            var assignment = _assignments.Find(a => a.ModuleId == moduleId && a.ID == id);
 
             if (assignment == null)
             {
@@ -33,14 +33,14 @@ namespace SimpleLMS.API.Controllers {
         [HttpPost]
         public ActionResult<Assignment> CreateAssignment(int courseId, int moduleId, Assignment assignment)
         {
-            var module = _modules.Find(m => m.Course.ID == courseId && m.ID == moduleId);
+            var module = _modules.Find(m => m.CourseId == courseId && m.ID == moduleId);
 
             if (module == null)
             {
                 return NotFound();
             }
 
-            assignment.Module = module;
+            assignment.ModuleId = moduleId;
             _assignments.Add(assignment);
 
             return CreatedAtAction(nameof(GetAssignment), new { courseId, moduleId, id = assignment.ID }, assignment);
@@ -49,7 +49,7 @@ namespace SimpleLMS.API.Controllers {
         [HttpPut("{id}")]
         public IActionResult UpdateAssignment(int courseId, int moduleId, int id, Assignment updatedAssignment)
         {
-            var assignment = _assignments.Find(a => a.Module.ID == moduleId && a.ID == id);
+            var assignment = _assignments.Find(a => a.ModuleId == moduleId && a.ID == id);
 
             if (assignment == null)
             {
@@ -66,7 +66,7 @@ namespace SimpleLMS.API.Controllers {
         [HttpDelete("{id}")]
         public IActionResult DeleteAssignment(int courseId, int moduleId, int id)
         {
-            var assignment = _assignments.Find(a => a.Module.ID == moduleId && a.ID == id);
+            var assignment = _assignments.Find(a => a.ModuleId == moduleId && a.ID == id);
 
             if (assignment == null)
             {

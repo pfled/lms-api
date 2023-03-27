@@ -2,14 +2,13 @@ using Xunit;
 using SimpleLMS.API.Controllers;
 using SimpleLMS.API.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SimpleLMS.Tests
 {
     public class CoursesControllerTests
     {
         private CoursesController _controller = new CoursesController();
+        private static List<Course> _coursesData = new List<Course>();
 
         [Fact]
         public void GetCourses_ShouldReturnCourses()
