@@ -1,26 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimpleLMS.API.Models;
 using SimpleLMS.API.Data;
 
 
 namespace SimpleLMS.API.Controllers {
     [ApiController]
-    [Route("api/courses/{courseId}/modules/{moduleId}/[controller]")]
+    [Route("api/[controller]")]
     public class AssignmentsController : ControllerBase
     {
-        private static List<Assignment> _assignments = DataStore.Assignments;
-        private static List<Module> _modules = DataStore.Modules;
+        private readonly SimpleLMSContext _context;
+
+        public AssignmentsController(SimpleLMSContext context) 
+        {
+            _context = context;
+        }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Assignment>> GetAssignments(int courseId, int moduleId)
+        public async Task<ActionResult<IEnumerable<Assignment>>> GetAssignments()
         {
-            return _assignments.FindAll(a => a.ModuleId == moduleId);
+            if (_context.Assignments == null)
+            {
+                return NotFound();
+            }
+            return await _context.Assignments.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Assignment> GetAssignment(int courseId, int moduleId, int id)
+        public async Task<ActionResult<Assignment>> GetAssignment(int id)
         {
-            var assignment = _assignments.Find(a => a.ModuleId == moduleId && a.ID == id);
+            var assignment = await _context.Assignments.FirstOrDefaultAsync(a => a.ID == id);
 
             if (assignment == null)
             {
@@ -31,51 +40,62 @@ namespace SimpleLMS.API.Controllers {
         }
 
         [HttpPost]
-        public ActionResult<Assignment> CreateAssignment(int courseId, int moduleId, Assignment assignment)
+        public async Task<ActionResult<Assignment>> CreateAssignment(Assignment assignment)
         {
-            var module = _modules.Find(m => m.CourseId == courseId && m.ID == moduleId);
+            _context.Assignments.Add(assignment);
+            await _context.SaveChangesAsync();
 
-            if (module == null)
-            {
-                return NotFound();
-            }
-
-            assignment.ModuleId = moduleId;
-            _assignments.Add(assignment);
-
-            return CreatedAtAction(nameof(GetAssignment), new { courseId, moduleId, id = assignment.ID }, assignment);
+            return CreatedAtAction("GetAssignment", new { id = assignment.ID }, assignment);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateAssignment(int courseId, int moduleId, int id, Assignment updatedAssignment)
+        public async Task<IActionResult> UpdateAssignment(int id, Assignment updatedAssignment)
         {
-            var assignment = _assignments.Find(a => a.ModuleId == moduleId && a.ID == id);
-
-            if (assignment == null)
+            if (id != updatedAssignment.ID)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            assignment.Name = updatedAssignment.Name;
-            assignment.Grade = updatedAssignment.Grade;
-            assignment.DueDate = updatedAssignment.DueDate;
+            _context.Entry(updatedAssignment).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AssignmentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteAssignment(int courseId, int moduleId, int id)
+        public async Task<IActionResult> DeleteAssignment(int id)
         {
-            var assignment = _assignments.Find(a => a.ModuleId == moduleId && a.ID == id);
+            var assignment = await _context.Assignments.FirstOrDefaultAsync(a => a.ID == id);
 
             if (assignment == null)
             {
                 return NotFound();
             }
 
-            _assignments.Remove(assignment);
+            _context.Assignments.Remove(assignment);
+            await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private bool AssignmentExists(int id)
+        {
+            return _context.Assignments.Any(e => e.ID == id);
         }
     }
 }

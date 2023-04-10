@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimpleLMS.API.Models;
 using SimpleLMS.API.Data;
 
@@ -8,19 +8,27 @@ namespace SimpleLMS.API.Controllers {
     [Route("api/courses/{courseId}/[controller]")]
     public class ModulesController : ControllerBase
     {
-        private static List<Module> _modules = DataStore.Modules;
-        private static List<Course> _courses = DataStore.Courses;
+        private readonly SimpleLMSContext _context;
+
+        public ModulesController(SimpleLMSContext context) 
+        {
+            _context = context;
+        }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Module>> GetModules(int courseId)
+        public async Task<ActionResult<IEnumerable<Module>>> GetModules()
         {
-            return _modules.FindAll(m => m.CourseId == courseId);
+            if (_context.Modules == null)
+            {
+                return NotFound();
+            }
+            return await _context.Modules.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Module> GetModule(int courseId, int id)
+        public async Task<ActionResult<Module>> GetModule(int id)
         {
-            var module = _modules.Find(m => m.CourseId == courseId && m.ID == id);
+            var module = await _context.Modules.FirstOrDefaultAsync(m => m.ID == id);
 
             if (module == null)
             {
@@ -31,51 +39,62 @@ namespace SimpleLMS.API.Controllers {
         }
 
         [HttpPost]
-        public ActionResult<Module> CreateModule(int courseId, Module module)
+        public async Task<ActionResult<Module>> CreateModule(Module module)
         {
-            var course = _courses.Find(c => c.ID == courseId);
+            _context.Modules.Add(module);
+            await _context.SaveChangesAsync();
 
-            if (course == null)
-            {
-                return NotFound();
-            }
-
-            module.CourseId = courseId;
-            _modules.Add(module);
-
-            return CreatedAtAction(nameof(GetModule), new { courseId, id = module.ID }, module);
+            return CreatedAtAction("GetModule", new { id = module.ID }, module);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateModule(int courseId, int id, Module updatedModule)
+        public async Task<IActionResult> UpdateModule(int id, Module updatedModule)
         {
-            var module = _modules.Find(m => m.CourseId == courseId && m.ID == id);
-
-            if (module == null)
+            if (id != updatedModule.ID)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            module.Name = updatedModule.Name;
-            module.Assignments = updatedModule.Assignments;
+            _context.Entry(updatedModule).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ModuleExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteModule(int courseId, int id)
+        public async Task<IActionResult> DeleteModule(int id)
         {
-            var module = _modules.Find(m => m.CourseId == courseId && m.ID == id);
+            var module = await _context.Modules.FindAsync(id);
 
             if (module == null)
             {
                 return NotFound();
             }
 
-            _modules.Remove(module);
+            _context.Modules.Remove(module);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
+        private bool ModuleExists(int id)
+        {
+            return _context.Modules.Any(e => e.ID == id);
+        }
     }
 }

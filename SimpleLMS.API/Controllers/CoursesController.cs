@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using SimpleLMS.API.Data;
 using SimpleLMS.API.Models;
 
@@ -8,18 +10,32 @@ namespace SimpleLMS.API.Controllers {
     [Route("api/[controller]")]
     public class CoursesController : ControllerBase
     {
-        private static List<Course> _courses = DataStore.Courses;
+        private readonly SimpleLMSContext _context;
+
+        public CoursesController(SimpleLMSContext context) 
+        {
+            _context = context;
+        }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Course>> GetCourses()
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-            return _courses;
+          if (_context.Courses == null)
+          {
+              return NotFound();
+          }
+            return await _context.Courses.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Course> GetCourse(int id)
+        public async Task<ActionResult<Course>> GetCourse(int id)
         {
-            var course = _courses.Find(c => c.ID == id);
+            if (_context.Courses == null)
+            {
+                return NotFound();
+            }
+
+            var course = await _context.Courses.FindAsync(id);
 
             if (course == null)
             {
@@ -30,48 +46,72 @@ namespace SimpleLMS.API.Controllers {
         }
 
         [HttpPost]
-        public ActionResult<Course> CreateCourse(Course course)
+        public async Task<ActionResult<Course>> CreateCourse(Course course)
         {
             if (course == null)
             {
                 return BadRequest();
             }
 
-            _courses.Add(course);
+            _context.Courses.Add(course);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetCourse), new { id = course.ID }, course);
+            return CreatedAtAction("GetCourse", new { id = course.ID }, course);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateCourse(int id, Course updatedCourse)
-        {
-            var course = _courses.Find(c => c.ID == id);
 
-            if (course == null)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCourse(int id, Course updatedCourse)
+        {
+            if (id != updatedCourse.ID)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            course.Name = updatedCourse.Name;
-            course.Modules = updatedCourse.Modules;
+            _context.Entry(updatedCourse).State = EntityState.Modified;
 
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteCourse(int id)
+        public async Task<IActionResult> DeleteCourse(int id)
         {
-            var course = _courses.Find(c => c.ID == id);
+            if (_context.Courses == null)
+            {
+                return NotFound();
+            }
+            
+            var course = await _context.Courses.FindAsync(id);
 
             if (course == null)
             {
                 return NotFound();
             }
 
-            _courses.Remove(course);
+            _context.Courses.Remove(course);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
+        private bool CourseExists(int id)
+        {
+            return _context.Courses.Any(e => e.ID == id);
+        }
     }
 }

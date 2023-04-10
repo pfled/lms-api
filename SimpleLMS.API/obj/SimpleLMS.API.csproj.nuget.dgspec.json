@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.API/SimpleLMS.API.csproj": {}
+    "/home/connor/OneDrive/class files/420/take-two/lms-api/SimpleLMS.API/SimpleLMS.API.csproj": {}
   },
   "projects": {
-    "/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.API/SimpleLMS.API.csproj": {
+    "/home/connor/OneDrive/class files/420/take-two/lms-api/SimpleLMS.API/SimpleLMS.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.API/SimpleLMS.API.csproj",
+        "projectUniqueName": "/home/connor/OneDrive/class files/420/take-two/lms-api/SimpleLMS.API/SimpleLMS.API.csproj",
         "projectName": "SimpleLMS.API",
-        "projectPath": "/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.API/SimpleLMS.API.csproj",
+        "projectPath": "/home/connor/OneDrive/class files/420/take-two/lms-api/SimpleLMS.API/SimpleLMS.API.csproj",
         "packagesPath": "/home/connor/.nuget/packages/",
-        "outputPath": "/home/connor/OneDrive/class files/420/projects/lms-api/SimpleLMS.API/obj/",
+        "outputPath": "/home/connor/OneDrive/class files/420/take-two/lms-api/SimpleLMS.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/connor/.nuget/NuGet/NuGet.Config"
@@ -41,6 +41,20 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

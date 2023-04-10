@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLMS.API", "SimpleLMS.API\SimpleLMS.API.csproj", "{7B2777E1-D15C-4F3F-AB9C-1891B9EDB6C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLMS.Tests", "SimpleLMS.Tests\SimpleLMS.Tests.csproj", "{657559A4-7B44-42C4-90D5-E1A64946D018}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLMS.API.Tests", "SimpleLMS.API.Tests\SimpleLMS.API.Tests.csproj", "{FDEBFFF0-32A1-4254-A591-AF5BC46D1D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +20,9 @@ Global
 		{7B2777E1-D15C-4F3F-AB9C-1891B9EDB6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B2777E1-D15C-4F3F-AB9C-1891B9EDB6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B2777E1-D15C-4F3F-AB9C-1891B9EDB6C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{657559A4-7B44-42C4-90D5-E1A64946D018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{657559A4-7B44-42C4-90D5-E1A64946D018}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{657559A4-7B44-42C4-90D5-E1A64946D018}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{657559A4-7B44-42C4-90D5-E1A64946D018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDEBFFF0-32A1-4254-A591-AF5BC46D1D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDEBFFF0-32A1-4254-A591-AF5BC46D1D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDEBFFF0-32A1-4254-A591-AF5BC46D1D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDEBFFF0-32A1-4254-A591-AF5BC46D1D23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

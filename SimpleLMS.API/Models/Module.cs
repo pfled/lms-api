@@ -3,7 +3,7 @@ namespace SimpleLMS.API.Models {
         {
             public int ID { get; set; }
             public string? Name { get; set; }
-            public int CourseId { get; set; }
+            public Course? Course { get; set; }
             public List<Assignment>? Assignments { get; set; }
         }
 }
